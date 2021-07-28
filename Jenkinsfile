@@ -1,7 +1,3 @@
-/*def cmd_exec(command) {
-    return bat(returnStdout: true, script: "${command}").trim()
-} */
-
 pipeline {
   agent {
     node{
@@ -52,6 +48,7 @@ pipeline {
           } */
         }
       }
+	}
       stage ('Docker-image-build') {
           steps {
              script {
@@ -66,7 +63,10 @@ pipeline {
              script {
               sh '''
                 docker run -d --name db -p 8080:8091 -p 8080:8089 hello-world:latest
-             '''   
+             '''
+				}
+			}
+		}
     stage('Jacoco Result'){
       steps{
         script {
@@ -75,6 +75,7 @@ pipeline {
           //jacoco deltaBranchCoverage: '70', deltaClassCoverage: '100', deltaComplexityCoverage: '70', deltaInstructionCoverage: '70', deltaLineCoverage: '70', deltaMethodCoverage: '70', maximumBranchCoverage: '70', maximumClassCoverage: '100', maximumComplexityCoverage: '70', maximumInstructionCoverage: '70', maximumLineCoverage: '70', maximumMethodCoverage: '70'
       }
     }
+  }
   }
   post {
     always {
